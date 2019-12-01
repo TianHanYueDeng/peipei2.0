@@ -24,30 +24,35 @@ type Sysconfig struct {
 }
 
 var (
-	Config  = &Sysconfig{}
-	hasInit = false
+	Config = &Sysconfig{}
 	//pwd, _  = os.Getwd()
 	//path    = filepath.Dir(pwd)
 )
 
 func init() {
-	if !hasInit {
-		configPath := "config.json"
-		//configPath := filepath.Join(path,"config.json")
-		data, err := ioutil.ReadFile(configPath)
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		err = json.Unmarshal(data, Config)
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		//log.Println("Start loading config")
-		Config.RedisConfig.Clusters = nil
-		Config.RedisConfig.Timeout = time.Duration(30) * time.Second
-		Config.RedisConfig.Driver = redis.Redigo()
-		hasInit = true
+	configPath := "config.json"
+	//configPath := filepath.Join(path,"config.json")
+	//读取json配置
+	data, err := ioutil.ReadFile(configPath)
+	if err != nil {
+		fmt.Println(err)
+		return
 	}
+	err = json.Unmarshal(data, Config)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	//log.Println("Start loading config")
+	Config.RedisConfig.Clusters = nil
+	Config.RedisConfig.Timeout = time.Duration(30) * time.Second
+	Config.RedisConfig.Driver = redis.Redigo()
+
+	//// 日志格式化为 JSON 而不是默认的 ASCII
+	//log.SetFormatter(&log.JSONFormatter{})
+	//// 输出 stdout 而不是默认的 stderr，也可以是一个文件
+	//log.SetOutput(os.Stdout)
+	//// 只记录严重或以上警告
+	//log.SetLevel(log.WarnLevel)
+
 }

@@ -3,6 +3,7 @@ package datasource
 import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
+	"log"
 	"peipei2/conf"
 	"peipei2/models"
 	"strings"
@@ -21,7 +22,7 @@ func GetDB() *gorm.DB {
 func init() {
 	// user:password@(localhost)/dbname?charset=utf8&parseTime=True&loc=Local
 	path := strings.Join([]string{dbConfig.DBuser, ":", dbConfig.DBpassword, "@(", dbConfig.DBip, ":", dbConfig.DBport, ")/", dbConfig.DBname, "?charset=utf8&parseTime=true"}, "")
-	//log.Println(path)
+	log.Println(path)
 	var err error
 	db, err = gorm.Open("mysql", path)
 	if err != nil {

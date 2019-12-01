@@ -108,7 +108,7 @@ func (n studentService) Authenticate(id int, name string) models.Result {
 	} else {
 		if isSuper {
 			result.Data = nil
-			result.Code = 1000
+			result.Code = 201
 			result.Msg = "SUPER LOGIN SUCCESS"
 		} else {
 			result.Data = nil

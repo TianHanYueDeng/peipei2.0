@@ -4,7 +4,6 @@ import (
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/sessions"
 	"github.com/spf13/cast"
-	"log"
 	"peipei2/constants"
 	"peipei2/models"
 	"peipei2/service"
@@ -40,7 +39,6 @@ func (g *StudentController) Post() models.Result {
 
 	r := g.Ctx
 	action := r.URLParam("action")
-	log.Println(action)
 	if action == constants.HTTP_ACTION_REGISTER {
 		if g.Sess.GetBooleanDefault("IsSuper", false) == false {
 			return models.Result{Data: nil, Code: -1, Msg: "you are not super manager"}
@@ -61,7 +59,7 @@ func (g *StudentController) Post() models.Result {
 			g.Sess.Set("Authenticated", true)
 			g.Sess.Set("IsSuper", false)
 			g.Sess.Set("ID", id)
-		} else if result.Code == 1000 {
+		} else if result.Code == 201 {
 			g.Sess.Set("Authenticated", true)
 			g.Sess.Set("IsSuper", true)
 			g.Sess.Set("ID", id)
